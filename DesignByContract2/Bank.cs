@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
+
 namespace DesignByContract2
 {
 	public class Bank
@@ -11,6 +13,11 @@ namespace DesignByContract2
 		}
 
 		public bool move(double amount, Account source, Account target) {
+			Contract.Requires(source != null);
+			Contract.Requires(target != null);
+			Contract.Requires(amount > 0);
+			Contract.Ensures(Contract.Result<double>() == Contract.OldValue(source.getBalance()) - amount);
+			Contract.Ensures(Contract.Result<double>() == Contract.OldValue(target.getBalance()) + amount);
 			throw new NotSupportedException();
 		}
 
