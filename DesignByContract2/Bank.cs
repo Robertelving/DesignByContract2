@@ -40,24 +40,22 @@ namespace DesignByContract2
 			var message = new StringBuilder();
 
 			message.Append("statement for [ACCOUNT]: " + account.Number + "\n");
-			message.Append("[ACTION]\t [FROM]\t [TO]\t [DATE]\t [AMOUNT] \n");
+			message.Append("[ACTION]\t [FROM]\t [TO]\t [DATE]\t\t\t [AMOUNT]\n");
 
 			foreach (var item in account.GetMovements())
 			{
 				if (item.Amount < 0)
 				{
-					message.Append("WITHDRAW\t " + item.Source.Number + "\t " + item.Target.Number + "\t " + item.date + "\t " + item.Amount + "\n");
-					//message.Append("[WITHDRAW]: " + item.Amount + "[DATE]:" + item.date);
-					//message.Append(" [SOURCE]: " + item.Source.Number + " [TARGET]: " + item.Target.Number + "\n");
+					message.Append("WITHDRAW\t " + item.Source.Number + "\t " + item.Target.Number + "\t ");
+					message.Append(item.date + "\t " + item.Amount + "\n");
 				}
 				else
 				{
-					message.Append("DEPOSIT\t " + item.Source.Number + "\t " + item.Target.Number + "\t " + item.date + "\t " + item.Amount + "\n");
-					//message.Append("[DEPOSIT]: " + item.Amount + "[DATE]:" + item.date);
-					//message.Append(" [SOURCE]: " + item.Source.Number + " [TARGET]: " + item.Target.Number + "\n");
+					message.Append("DEPOSIT\t\t " + item.Source.Number + "\t " + item.Target.Number + "\t ");
+					message.Append(item.date + "\t " + item.Amount + "\n");
 				}
 			}
-
+			message.Append("\t\t\t\t\t\t\t" + account.Balance + " [TOTAL]");
 			return message.ToString();
 		}
 	}

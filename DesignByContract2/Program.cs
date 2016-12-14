@@ -8,12 +8,13 @@ namespace DesignByContract2
 		public static void Main(string[] args)
 		{
 			var bank = new Bank("Roberts Røverrede");
-			var cust = new Customer(78324,"Simon");
-			var a1 = new Account(1);
-			var a2 = new Account(2);
-			var a3 = new Account(3);
-			var a4 = new Account(4);
-			var a5 = new Account(5);
+			var cust = new Customer(78324, "Simon", bank);
+			var c = new Customer(23, "Christopher", bank);
+			var a1 = new Account(1, bank, cust);
+			var a2 = new Account(2, bank, c);
+			var a3 = new Account(3, bank, c);
+			var a4 = new Account(4, bank, c);
+			var a5 = new Account(5, bank, c);
 
 			cust.AddAccount(a1);
 			bank.Move(100, a1, a2);
@@ -30,7 +31,7 @@ namespace DesignByContract2
 			bank.Move(985, a1, a4);
 			bank.Move(34, a4, a2);
 
-			Console.WriteLine(bank.MakeStatement(cust, 1));
+			Console.WriteLine(bank.MakeStatement(cust, a1));
 
 
 		}

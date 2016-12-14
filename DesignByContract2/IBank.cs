@@ -5,7 +5,7 @@ namespace DesignByContract2
 	{
 		void Move(double amount, Account source, Account target);
 
-		string MakeStatement(Customer customer, int accountId);
+		string MakeStatement(Customer customer, Account account);
 
 	}
 }
