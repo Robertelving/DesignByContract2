@@ -6,8 +6,8 @@ namespace DesignByContract2
 	public class Account
 	{
 
-		private long number { get; }
-		private double balance { get;}
+		private long number;
+		private double balance; 
 
 		public Account(int number, double balance)
 		{
@@ -18,8 +18,12 @@ namespace DesignByContract2
 		[ContractInvariantMethod]
 		private void ObjectInvariant()
 		{
-			Contract.Invariant(id > 0);
-			Contract.Invariant(!String.IsNullOrWhiteSpace(name));
+			Contract.Invariant(number > 0);
+
+		}
+
+		public double getBalance() {
+			return this.balance;
 		}
 
 	}

@@ -5,7 +5,7 @@ namespace DesignByContract2
 {
 	public class Bank
 	{
-
+		
 		private string name { get; }
 
 		public Bank()
@@ -16,6 +16,9 @@ namespace DesignByContract2
 			Contract.Requires(source != null);
 			Contract.Requires(target != null);
 			Contract.Requires(amount > 0);
+
+
+
 			Contract.Ensures(Contract.Result<double>() == Contract.OldValue(source.getBalance()) - amount);
 			Contract.Ensures(Contract.Result<double>() == Contract.OldValue(target.getBalance()) + amount);
 			throw new NotSupportedException();
