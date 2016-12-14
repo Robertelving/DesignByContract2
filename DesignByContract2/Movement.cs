@@ -6,21 +6,25 @@ namespace DesignByContract2
 	public class Movement
 	{
 
-		private readonly DateTime date = DateTime.Now; 
-		private double amount { get; }
+		public readonly DateTime date = DateTime.Now; 
+		public double Amount { get; }
+		public Account Source { get; }
+		public Account Target { get; }
 
-		public Movement(double amount)
+		public Movement(double amount, Account source, Account target)
 		{
-			this.amount = amount;
+			Amount = amount;
+			Source = source;
+			Target = target;
 		}
 
 		[ContractInvariantMethod]
 		private void ObjectInvariant()
 		{
-			Contract.Invariant(date != null);
-			Contract.Invariant(amount > 0);
+			Contract.Invariant(Source != null);
+			Contract.Invariant(Target != null);			        
+			Contract.Invariant(Amount == 0D);
 		}
-
 
 	}
 }

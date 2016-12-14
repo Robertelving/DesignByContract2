@@ -38,6 +38,7 @@
     <Compile Include="Bank.cs" />
     <Compile Include="Account.cs" />
     <Compile Include="Movement.cs" />
+    <Compile Include="IBank.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

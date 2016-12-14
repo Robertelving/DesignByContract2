@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
 namespace DesignByContract2
@@ -6,25 +7,57 @@ namespace DesignByContract2
 	public class Account
 	{
 
-		private long number;
-		private double balance; 
+		private readonly List<Movement> movements = new List<Movement>();
+		private double _balance;
 
-		public Account(int number, double balance)
+		public IBank Bank { get; }
+		public Customer Customer { get; }
+		public long Number { get; }
+		public double Balance
 		{
-			this.number = number;
-			this.balance = balance;
+			get
+			{
+				var sum = 0D;
+				foreach (var movement in movements)
+				{
+					sum += movement.Amount;
+				}
+				return sum;
+			}
+		}
+
+
+		public Account(int number, IBank bank, Customer customer)
+		{
+			Bank = bank;
+			Customer = customer;
+			Number = number;
 		}
 
 		[ContractInvariantMethod]
 		private void ObjectInvariant()
 		{
-			Contract.Invariant(number > 0);
-
+			Contract.Invariant(Number > 0);
 		}
 
-		public double getBalance() {
-			return this.balance;
+		public List<Movement> GetMovements()
+		{
+			return movements;
 		}
 
+		public void Deposit(double amount, Account source)
+		{
+			Contract.Requires(amount > 0);
+			Contract.Ensures((Contract.OldValue(Balance)) > Balance);
+			movements.Add(new Movement(amount, source, this));
+		}
+
+
+		public void WithDraw(double amount, Account target)
+		{
+			Contract.Requires(amount > 0);
+			Contract.Ensures((Contract.OldValue(Balance)) < Balance);
+			movements.Add(new Movement(-amount, this, target));
+		}
 	}
 }

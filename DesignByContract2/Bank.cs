@@ -1,31 +1,64 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Text;
 
 namespace DesignByContract2
 {
-	public class Bank
+	public class Bank : IBank
 	{
-		
-		private string name { get; }
 
-		public Bank()
+		public string Name { get; }
+
+		public Bank(String name)
 		{
+			this.Name = name;
 		}
 
-		public bool move(double amount, Account source, Account target) {
-			Contract.Requires(source != null);
-			Contract.Requires(target != null);
-			Contract.Requires(amount > 0);
 
-
-
-			Contract.Ensures(Contract.Result<double>() == Contract.OldValue(source.getBalance()) - amount);
-			Contract.Ensures(Contract.Result<double>() == Contract.OldValue(target.getBalance()) + amount);
-			throw new NotSupportedException();
+		[ContractInvariantMethod]
+		public void ObjectInvariantBank()
+		{
+			Contract.Invariant(!String.IsNullOrWhiteSpace(Name));
 		}
 
-		public string makeStatement(Customer customer, Account account) { 
-			throw new NotSupportedException();
+		public void Move(double amount, Account source, Account target)
+		{
+			Contract.Ensures(source != null);
+			Contract.Ensures(target != null);
+			Contract.Ensures(amount > 0);
+
+			source.WithDraw(amount, target);
+			target.Deposit(amount, source);
+		}
+
+		public string MakeStatement(Customer customer, Account account)
+		{
+			Contract.Requires(customer != null);
+			Contract.Requires(account != null);
+			Contract.Requires(customer.GetAccount(account.Number) != null);
+
+			var message = new StringBuilder();
+
+			message.Append("statement for [ACCOUNT]: " + account.Number + "\n");
+			message.Append("[ACTION]\t [FROM]\t [TO]\t [DATE]\t [AMOUNT] \n");
+
+			foreach (var item in account.GetMovements())
+			{
+				if (item.Amount < 0)
+				{
+					message.Append("WITHDRAW\t " + item.Source.Number + "\t " + item.Target.Number + "\t " + item.date + "\t " + item.Amount + "\n");
+					//message.Append("[WITHDRAW]: " + item.Amount + "[DATE]:" + item.date);
+					//message.Append(" [SOURCE]: " + item.Source.Number + " [TARGET]: " + item.Target.Number + "\n");
+				}
+				else
+				{
+					message.Append("DEPOSIT\t " + item.Source.Number + "\t " + item.Target.Number + "\t " + item.date + "\t " + item.Amount + "\n");
+					//message.Append("[DEPOSIT]: " + item.Amount + "[DATE]:" + item.date);
+					//message.Append(" [SOURCE]: " + item.Source.Number + " [TARGET]: " + item.Target.Number + "\n");
+				}
+			}
+
+			return message.ToString();
 		}
 	}
 }
