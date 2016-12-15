@@ -10,7 +10,8 @@ are not sitting together everyday, can use such guidelines during the developmen
 ## Purpose of the assignment
 We have a simple bank, that contains Customers and Accounts. Each Account is performing Movements, which the Bank-class controls in a double entry bookkeeping manner. 
 
-Looking at situations happening in a Bank is a good example in the usage of contracts. In this assignment, we are using Code Contracts to enforce some rules, that should apply different places in the logic of the application.
+Looking at situations happening in a Bank is a good example in the usage of contracts. 
+In this assignment, we are using Code Contracts for .net to enforce some rules, that should apply different places in the logic of the application.
 
 We will describe the practices we have used in our code in the next couple of sections.
 
@@ -30,7 +31,7 @@ public void Deposit(double amount, Account source)
 
 The very first statement is using the Contract instance, which holds the Requires-function. Everything inside its parameter should always be true. If not, then the contract is violated. 
 
-## Ensures - Post-condtions
+## Ensures (Post-condtions)
 Ensures is a function, that should work as post-condition. It sets up a condition, that should be true, to ensure, that some instance got a specific value. 
 
 Let us look at the Withdraw-function located in the Account-class:
